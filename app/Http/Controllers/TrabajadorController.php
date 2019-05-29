@@ -58,7 +58,7 @@ class TrabajadorController extends Controller
 
 	public function actionAgregarTrabajador($idopcion,Request $request)
 	{
-
+		
 		/********************** validar url **********************/
 		$validarurl = $this->funciones->getUrl($idopcion,'Anadir');
 	    if($validarurl <> 'true'){return $validarurl;}
@@ -99,7 +99,7 @@ class TrabajadorController extends Controller
 			$cabecera->template 		 		 = 	'';
 			$cabecera->template10 			 	 = 	'';
 			$cabecera->mar_huella 			 	 = 	'';
-			$cabecera->mar_dni 				 	 = 	'';
+			$cabecera->mar_dni 			 	 	 = 	$request['mar_dni'];
 			$cabecera->horario_id  				 = 	$request['horario_id'];
 			$cabecera->area_id  				 = 	$request['area_id'];
 			$cabecera->cargo_id  				 = 	$request['cargo_id'];
@@ -197,6 +197,7 @@ class TrabajadorController extends Controller
 			$cabecera->area_id 	      			  =  	$area_id;
 			$cabecera->local_id 	      		  =  	$request['local_id'];
 			$cabecera->horario_id 		  		  = 	$request['horario_id'];
+			$cabecera->mar_dni 			 	 	  = 	$request['mar_dni'];
 			$cabecera->cargo_id 		  		  = 	$request['cargo_id'];
 			$cabecera->fechaingreso 			  = 	$request['fechaingreso'];
 			

@@ -144,6 +144,12 @@ Route::group(['middleware' => ['authaw']], function () {
 
 
 
+	Route::any('/gestion-de-cargos/{idopcion}', 'MantenimientoController@actionListarCargos');
+	Route::any('/agregar-cargo/{idopcion}', 'MantenimientoController@actionAgregarCargo');
+	Route::any('/modificar-cargo/{idopcion}/{idcargo}', 'MantenimientoController@actionModificarCargo');
+
+
+
 });
 
 	Route::any('/pruebas', 'UserController@pruebas');

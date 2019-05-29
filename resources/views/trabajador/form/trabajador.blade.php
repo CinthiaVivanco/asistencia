@@ -234,7 +234,7 @@
 
               <div class="col-sm-6">
 
-                  <div class="panel-body">
+                <div class="panel-body">
 
                       <div class="form-group">
                           <label class="col-sm-12 control-label labelleft">Fecha Ingreso <span class="required">*</span>
@@ -249,6 +249,21 @@
                             </div>
                           </div>
                       </div>
+
+                      <div class="form-group">
+                        <label class="col-sm-12 control-label labelleft">Marcar con DNI <span class="required">*</span></label>
+                        <div class="col-sm-7 abajocaja">
+                          <div class="be-radio has-success inline">
+                            <input type="radio" class="radiodni radio" value='1' @if(isset($trabajador)) @if($trabajador->mar_dni == 1) checked @endif @else @endif name="mar_dni" id="rad1">
+                            <label for="rad1">Sí</label>
+                          </div>
+                          <div class="be-radio has-danger inline radio2">
+                            <input type="radio" class="radiodni radio" required = "" value='0' @if(isset($trabajador)) @if($trabajador->mar_dni == 0) checked @endif @endif name="mar_dni" id="rad2">
+                            <label for="rad2">No</label>
+                          </div>
+                        </div>
+                      </div> 
+
                   </div>
               </div>
         </div>

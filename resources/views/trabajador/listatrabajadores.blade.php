@@ -23,10 +23,9 @@
                     <thead>
                       <tr>
                         <th>Dni</th>
-                        <th>Apellido Paterno</th>
-                        <th>Apellido Materno</th>                     
-                        <th>Nombres</th>
+                        <th>Nombre Completo</th>
                         <th>Empresa</th>
+                        <th>Marcar con DNI</th>
                         <th>Área</th> 
                         <th>Horario</th> 
                         <th>Opción</th>
@@ -38,10 +37,17 @@
                     @if($item->activo == 1) 
                         <tr>
                             <td>{{$item->dni}} </td>
-                            <td>{{$item->apellidopaterno}}</td>
-                            <td>{{$item->apellidomaterno}}</td>
-                            <td>{{$item->nombres}}</td>
+                            <td>{{$item->apellidopaterno}} {{$item->apellidomaterno}} {{$item->nombres}}</td>
                             <td>{{$item->local->empresa->descripcion}}</td>
+
+                            <td> 
+                              @if($item->mar_dni == 1)  
+                                <span class="icon mdi mdi-check"></span> 
+                              @else 
+                                <span class="icon mdi mdi-close"></span> 
+                              @endif
+                            </td>
+                            
                             <td>{{$item->area->nombre}}</td>
                             <td>{{$item->horario->nombre}}</td>
                             <td class="rigth">

@@ -3,10 +3,20 @@ namespace App\Biblioteca;
 
 use DB,Hashids,Session,Redirect,table;
 use App\RolOpcion,App\Local,App\Empresa,App\Horariotrabajador,App\Semana,App\Permisouserempresa,App\Trabajador,App\Asistenciatrabajador,App\PeriodoPiloto;
-use App\Descansovacacion,App\Horario,App\Permisousersede,App\ViajesPiloto;
+use App\Descansovacacion,App\Horario,App\Permisousersede,App\ViajesPiloto,App\Cargoempresa;
 use TPDF;
 class Funcion{
 
+	public function arraycargosempresas($arrayempresas){
+		$arraycargos  		=	Cargoempresa::where('activo','=',1)->whereIn('empresa_id',$arrayempresas)->select('cargo_id')
+            ->distinct()->pluck('cargo_id')->toArray();
+		return $arraycargos;
+	}
+
+	public function arrayempresaspermiso(){
+		$arrayempresa   	=	Permisouserempresa::where('activo','=',1)->where('user_id','=',Session::get('usuario')->id)->pluck('empresa_id')->toArray();
+		return $arrayempresa;
+	}
 
 	function asistencia_conductor($dia,$idpiloto,$idplanillapiloto,$listaviajes){
 
