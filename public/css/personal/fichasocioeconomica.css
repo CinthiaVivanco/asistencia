@@ -1,0 +1,110 @@
+.otrotipovivienda{
+    top: -40px;
+    margin-left: 70px;
+}
+
+.otromaterial{
+    top: -40px;
+    margin-left: 70px;
+}
+
+.otraenfermedad{
+    top: -40px;
+    margin-left: 80px;
+}
+
+.tab-content{
+    margin-left: 70px;
+}   
+
+.cont_princ_lists  ul{
+  padding-left: 0px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+
+.cont_princ_lists  ul  li  {
+  align-content: center;
+  position: relative;
+  width: 196%; 
+  height: 75px;
+  background-color: #F1F1EF;
+  list-style: none;
+  box-shadow: 1px 10px 20px 0px rgba(218, 215, 206,0.8);
+  z-index: 2;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  margin-left: 200px;
+}
+
+.cont_princ_lists .detid p{
+  margin-top: 25px;
+  padding-left: 5px;
+  border-left: 4px solid #e45;
+  color: #e45;
+  font-weight: bold;
+}
+
+
+.cont_princ_lists .detnombres .detnombre{
+    margin-top: 25px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    font-style: italic;
+}  
+.cont_princ_lists .detnombres .detapellido{
+    margin-top: 5px;
+    color: #999;
+    font-size: 1em;   
+}
+
+.cont_princ_lists .mdi-edit{
+    margin-top: 25px;
+    padding-top: 5px;
+    padding-left: 6px;
+    font-size: 1.6em;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 25px;
+    border: 1px solid #999;
+}
+
+/* CHECKBOX */
+.be-checkbox input[type="checkbox"]:checked + label:before, .be-radio input[type="checkbox"]:checked + label:before, .be-checkbox input[type="radio"]:checked + label:before, .be-radio input[type="radio"]:checked + label:before {
+    content: "\f26b";
+    color: #4285f4;
+    border-color: #4285f4;
+}
+
+.be-checkbox.has-success input[type="checkbox"] + label:before, .be-radio.has-success input[type="checkbox"] + label:before, .be-checkbox.has-success input[type="radio"] + label:before, .be-radio.has-success input[type="radio"] + label:before {
+    color: #4285f4 !important;
+    border-color: #4285f4 !important;
+}
+
+.be-checkbox.inline {
+    display: block !important;
+    position: relative !important;
+    margin-left: 18px !important;
+}
+.be-radio.inline.ficha{
+  margin-right: 10px;
+}
+
+.radio2{
+    position: absolute;
+    top: 0px;
+    right: 125px;
+    display: block;
+}
+
+
+
+
+/*
+.be-checkbox.inline.largo {
+    margin-top: -108px !important;
+    padding-right: 30px !important;
+}
+*/
