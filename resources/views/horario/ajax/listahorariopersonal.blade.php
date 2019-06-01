@@ -45,8 +45,6 @@
 
           <div class="text-center be-checkbox be-checkbox-sm">
 
-            
-
             <input  type="checkbox"
                     class="{{Hashids::encode(substr($item->id, -12))}}"
                     id="lu{{Hashids::encode(substr($item->id, -12))}}"
@@ -75,6 +73,7 @@
 
           <span class="text-center cell-detail-description cell-detail-descriptionfr">
             {{date_format(date_create($item->lud), 'd/m/Y')}}
+            {{substr($item->lud, 5, 1)}}
           </span>
           <span class="text-center cell-detail-description cell-detail-descriptionfr labelhora">
             {{$item->rhlu}}

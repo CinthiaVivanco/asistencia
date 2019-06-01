@@ -102,8 +102,8 @@ Route::group(['middleware' => ['authaw']], function () {
 	Route::any('/reporte-horarios/{idopcion}', 'HorarioReporteController@actionHorarios');
 	Route::any('/ajax-lista-horarios', 'HorarioReporteController@actionAjaxListaHorariosEmpresa');	
 	Route::any('/horario-empresa-pdf/{idempresa}', 'HorarioReporteController@actionHorarioEmpresaPdf');
-	Route::any('/reporte-asistencia-diaria/{idopcion}', 'HorarioReporteController@actionAsistenciaDiaria');
-	Route::any('/ajax-lista-asistencia-diaria', 'HorarioReporteController@actionAjaxListaAsistenciaDiaria');
+	Route::any('/reporte-asistencia-diaria/{idopcion}', 'HorarioReporteController@actionAsistenciaDiaria');//////////////////////////////////
+	Route::any('/ajax-lista-asistencia-diaria', 'HorarioReporteController@actionAjaxListaAsistenciaDiaria');//////////////////////////////////
 	Route::any('/horario-empresa-fecha-excel/{idsede}/{idempresa}/{fecha}', 'HorarioReporteController@actionHorarioEmpresaExcel');
 	
 
@@ -133,20 +133,30 @@ Route::group(['middleware' => ['authaw']], function () {
 	Route::any('/ajax-select-sede-trabajadores-todo', 'GeneralAjaxController@actionSedeTrabajadoresTodoAjax');
 	Route::any('/ajax-select-trabajador-area-empresa-todo', 'GeneralAjaxController@actionTrabajadorAreaEmpresaTodoAjax');
 
-
 	Route::any('/reporte-asistencia-mensual/{idopcion}', 'HorarioReporteController@actionAsistenciaMensual');
 	Route::any('/ajax-lista-asistencia-mensual', 'HorarioReporteController@actionAjaxListaAsistenciaMensual');
 	Route::any('/asistencia-mensual-trabajador-fechas-excel/{idsede}/{idtrabajador}/{fechainicio}/{fechafin}', 'HorarioReporteController@actionAsistenciaMensualTrabajadorFechasExcel');
 
-
 	Route::any('/reporte-asistencia-conductores/{idopcion}', 'ReportePilotoController@actionPilotoPeriodo');
 	Route::any('/asistencia-conductores-excel/{idperiodo}/{idsede}', 'ReportePilotoController@actionAsistenciaPeriodoExcel');
-
-
 
 	Route::any('/gestion-de-cargos/{idopcion}', 'MantenimientoController@actionListarCargos');
 	Route::any('/agregar-cargo/{idopcion}', 'MantenimientoController@actionAgregarCargo');
 	Route::any('/modificar-cargo/{idopcion}/{idcargo}', 'MantenimientoController@actionModificarCargo');
+
+    //AGREGAR ASISTENCIA CONDUCTORES
+
+	Route::any('/gestion-de-conductores/{idopcion}', 'AsistenciaConductorController@actionListarConductores');
+
+	Route::any('/agregar-asistencia/{idopcion}', 'AsistenciaConductorController@actionAgregarAsistencia');
+
+	Route::any('/lista-de-conductores-json.json', 'AsistenciaConductorController@actionListadeconductoresjson'); 
+
+
+	//ASISTENCIA PERIODOS
+
+	Route::any('/gestion-de-periodos/{idopcion}', 'MantenimientoController@actionListarPeriodo');
+	Route::any('/ajax-lista-dias-periodo', 'MantenimientoController@actionAjaxListaDiasxPeriodo');	
 
 
 

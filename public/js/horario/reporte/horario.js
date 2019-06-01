@@ -45,8 +45,6 @@ $(document).ready(function(){
         var textoajax   = $('.listaasistenciadiaria').html(); 
         $(".listaasistenciadiaria").html("");
 
-
-
         $.ajax({
             type    :   "POST",
             url     :   carpeta+"/ajax-lista-asistencia-individual-total",

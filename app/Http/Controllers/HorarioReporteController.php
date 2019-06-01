@@ -983,15 +983,12 @@ class HorarioReporteController extends Controller
 
 	    })->export('xls');
 
-
-
 	}
-
-
 
 
 	public function actionAsistenciaDiaria($idopcion)
 	{
+		
 		/******************* validar url **********************/
 		$validarurl = $this->funciones->getUrl($idopcion,'Ver');
 	    if($validarurl <> 'true'){return $validarurl;}
@@ -1012,7 +1009,6 @@ class HorarioReporteController extends Controller
 						 ]);
 
 	}
-
 
 
 	public function actionAjaxListaAsistenciaDiaria(Request $request)

@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
-use App\Cargo,App\Cargoempresa,App\Empresa,App\Permisouserempresa;;
+use App\Cargo,App\Cargoempresa,App\Empresa,App\Permisouserempresa;
+use App\Dia,App\TipoDia,App\Periodo;
 use View;
 use ZipArchive;
 use Session;
@@ -16,6 +17,40 @@ use PDO;
 
 class MantenimientoController extends Controller
 {
+
+	public function actionListarPeriodo($idopcion)
+	{
+
+		/******************* validar url **********************/
+		$validarurl = $this->funciones->getUrl($idopcion,'Ver');
+	    if($validarurl <> 'true'){return $validarurl;}
+	    /******************************************************/
+
+	    $periodos 		= DB::table('periodos')->pluck('codigo','id')->toArray(); //Mostrarlos periodos en un combo
+		$comboperiodos  = array('' => "Seleccione periodo") + $periodos;
+
+		return View::make('mantenimiento/listaperiodos',
+						 [
+						 	'comboperiodos' 	=> $comboperiodos,
+						 	'idopcion' 			=> $idopcion,
+						 ]);
+	}
+
+
+	public function actionAjaxListaDiasxPeriodo(Request $request)
+	{
+
+		$periodo_id 				=  	$request['periodo_id'];
+		$listadias       			=   Dia::where('periodo_id','=',$periodo_id)
+										->orderBy('fecha','asc')
+								    	->get();
+					    	
+		return View::make('mantenimiento/ajax/listadiasxperiodo',
+						 [
+							 'listadias'   			=> $listadias,				 							 						 					 
+						 ]);
+	}
+
 
 	public function actionListarCargos($idopcion)
 	{
@@ -62,18 +97,22 @@ class MantenimientoController extends Controller
 					$cabecera            	 =	new Cargo;
 					$cabecera->id 	     	 =  $idcargo;
 					$cabecera->nombre 	     =  $request['nombre'];
+
 					$cabecera->save();
 
+					//////////////////////////////////// Llenamos Tabla CargoEmpresas //////////////////
 
-					//////////////////////////////////// Llenamos Tabla CargoEmpresas ///////////////////
+					$permisos 					= $request['permisos'];  // 1,2
+					$empresas		   			= Empresa::whereIn('id',$permisos)->get();
 
-					$permisos 						= $request['permisos'];  //1
-					$empresas 						= Empresa::get();  //1,2,3,4
+					//$arrayempresas	   		= $this->funciones->arrayempresaspermiso();
+					//$empresas 				= Empresa::get();  //1,2,3,4
+
 					foreach($empresas as $item){
 
-						if (in_array($item->id, $permisos)) {
+						//if (in_array($item->id, $permisos)) {
 
-							$idcargoempresas 				 = $this->funciones->getCreateIdMaestra('cargoempresas');
+							$idcargoempresas 		 = $this->funciones->getCreateIdMaestra('cargoempresas');
 
 							$detalle            	 =	new Cargoempresa;
 							$detalle->id 	     	 =  $idcargoempresas;
@@ -81,14 +120,10 @@ class MantenimientoController extends Controller
 							$detalle->empresa_id 	 =  $item->id;
 							$detalle->save();
 
-						}
+						//}
 					}
 
-					
 					////////////////////////////////////////////////////////////////////////
-
-
-
 
  			return Redirect::to('/gestion-de-cargos/'.$idopcion)->with('bienhecho', 'Cargo '.$request['nombre'].' registrado con éxito');
 

@@ -2,6 +2,14 @@
 .cajareporte{
   height: 85px;
 }
+
+.listadoconductores .be-datatable-footer{
+    display: none;
+}
+
+.listadoconductores .dataTables_length{
+    display: none;
+}
 .datostrabajador{
   position: relative;
   height: 100px;

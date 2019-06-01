@@ -467,8 +467,6 @@ class HorarioController extends Controller
 		    $cabecera->horariotrabajador_id 	=  	$idhorariotrabajador;
 		    $cabecera->local_id 				=  	Session::get('local')->id;			    
 			$cabecera->save();
-
-
 		}
 	}
 
@@ -478,7 +476,6 @@ class HorarioController extends Controller
 
 		$idsemana 				=  	$request['idsemana'];
 		$idsede 				=  	$request['idsede'];
-
 
 		$idsemana 				= 	$this->funciones->decodificarmaestra($idsemana);
 

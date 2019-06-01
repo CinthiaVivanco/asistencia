@@ -29,9 +29,6 @@ class UserController extends Controller
 						 	'usuario' 	 => $usuario
 						 ]);
  	}
-
-
-
 	
    public function actionLogin(Request $request)
     {
@@ -128,7 +125,6 @@ class UserController extends Controller
 						 ]);
 	}
 
-
 	public function actionAgregarUsuario($idopcion,Request $request)
 	{
 		/******************* validar url **********************/
@@ -223,7 +219,6 @@ class UserController extends Controller
 						]);
 		}
 	}
-
 
 	public function actionModificarUsuario($idopcion,$idusuario,Request $request)
 	{
@@ -346,8 +341,6 @@ class UserController extends Controller
 		}
 	}
 
-
-
 	public function actionListarRoles($idopcion)
 	{
 
@@ -363,7 +356,6 @@ class UserController extends Controller
 						 	'listaroles' => $listaroles,
 						 	'idopcion' => $idopcion,
 						 ]);
-
 	}
 
 

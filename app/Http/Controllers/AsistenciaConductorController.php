@@ -16,9 +16,129 @@ use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use TPDF;
 
-
-class ReportePilotoController extends Controller
+class AsistenciaConductorController extends Controller
 {
+
+	public function actionAgregarAsistencia($idopcion,Request $request)
+	{
+		/******************* validar url **********************/
+		$validarurl = $this->funciones->getUrl($idopcion,'Anadir');
+	    if($validarurl <> 'true'){return $validarurl;}
+	    /******************************************************/
+
+		if($_POST)
+		{
+
+			// /**** Validaciones laravel ****/
+			// $this->validate($request, [
+	  //           'nombre' => 'unique:rols',
+			// ], [
+   //          	'nombre.unique' => 'Rol ya registrado',
+   //      	]);
+			// /******************************/
+
+			// $idrol 					 = $this->funciones->getCreateIdMaestra('rols');
+
+			// $cabecera            	 =	new Rol;
+			// $cabecera->id 	     	 =  $idrol;
+			// $cabecera->nombre 	     =  $request['nombre'];
+			// $cabecera->save();
+
+			// $listaopcion = Opcion::orderBy('id', 'asc')->get();
+			// $count = 1;
+			// foreach($listaopcion as $item){
+
+
+			// 	$idrolopciones 		= $this->funciones->getCreateIdMaestra('rolopciones');
+
+
+			//     $detalle            =	new RolOpcion;
+			//     $detalle->id 	    =  	$idrolopciones;
+			// 	$detalle->opcion_id = 	$item->id;
+			// 	$detalle->rol_id    =  	$idrol;
+			// 	$detalle->orden     =  	$count;
+			// 	$detalle->ver       =  	0;
+			// 	$detalle->anadir    =  	0;
+			// 	$detalle->modificar =  	0;
+			// 	$detalle->eliminar  =  	0;
+			// 	$detalle->todas     = 	0;
+			// 	$detalle->save();
+			// 	$count 				= 	$count +1;
+			// }
+
+ 			return Redirect::to('/gestion-de-conductores/'.$idopcion)->with('bienhecho', 'Asistencia del conductor '.$request['nombre'].' registrado con exito');
+		}else{
+
+		
+
+
+
+
+			return View::make('conductores/agregarasistencia',
+						[
+						  	'idopcion' => $idopcion
+						]);
+
+		}
+	}
+
+
+	public function actionListarConductores($idopcion)
+	{
+
+				/******************* validar url **********************/
+		$validarurl = $this->funciones->getUrl($idopcion,'Ver');
+	    if($validarurl <> 'true'){return $validarurl;}
+	    /******************************************************/
+
+         // $listapilotos      		= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdPiloto')  
+         // 							->select('listapiloto.Id','listapiloto.NombreCompleto','listapiloto.NombreCargo','listapiloto.Dni')
+         // 							->groupBy('listapiloto.Id')
+         // 							->groupBy('listapiloto.NombreCompleto')
+         // 							->groupBy('listapiloto.NombreCargo')
+         // 							->groupBy('listapiloto.Dni')
+         // 							->get();
+
+         // $listacopiloto      	= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdCopiloto')  
+         // 							->select('listapiloto.Id','listapiloto.NombreCompleto','listapiloto.NombreCargo','listapiloto.Dni')
+         // 							->groupBy('listapiloto.Id')
+         // 							->groupBy('listapiloto.NombreCompleto')
+         // 							->groupBy('listapiloto.NombreCargo')
+         // 							->groupBy('listapiloto.Dni')
+         // 							->get();
+
+		 //$listapiloto 			= 	$listapilotos->merge($listacopiloto);
+
+		return View::make('conductores/listarconductores',
+						 [
+						 	//'listapiloto' => $listapiloto,
+						 	'idopcion' 	  => $idopcion,
+						 ]);
+	}
+
+	public function actionListadeconductoresjson()
+	{
+
+		 $listapilotos      	= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdPiloto')  
+         							->select(DB::raw("listapiloto.Id as value, listapiloto.NombreCompleto  as text"))
+         							->groupBy('listapiloto.Id')
+         							->groupBy('listapiloto.NombreCompleto')
+         							->get();
+
+         $listacopiloto      	= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdCopiloto')  
+         							->select(DB::raw("listapiloto.Id as value, listapiloto.NombreCompleto  as text"))
+         							->groupBy('listapiloto.Id')
+         							->groupBy('listapiloto.NombreCompleto')
+         							->get();
+
+
+		 $listapiloto 			= 	$listapilotos->merge($listacopiloto)->toArray();
+
+
+
+		 return response()->json($listapiloto);
+	}
+
 
 	public function actionPilotoPeriodo($idopcion)
 	{

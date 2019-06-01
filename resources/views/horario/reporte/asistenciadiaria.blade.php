@@ -8,8 +8,6 @@
 @stop
 @section('section')
 
-
-
   <div class="be-content">
     <div class="main-content container-fluid">
           <div class="row">
@@ -42,8 +40,6 @@
 
                   <div class='filtrotabla row'>
                     <div class="col-xs-12">
-
-
 
                       <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
 
