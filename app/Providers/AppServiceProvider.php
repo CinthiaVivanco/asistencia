@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
         Schema::defaultStringLength(191);    
         View::share('capeta', '/asistencia');  
-        View::share('version', '20');  
+        View::share('version', '21');  
     }
 
     /**

@@ -147,16 +147,17 @@ Route::group(['middleware' => ['authaw']], function () {
     //AGREGAR ASISTENCIA CONDUCTORES
 
 	Route::any('/gestion-de-conductores/{idopcion}', 'AsistenciaConductorController@actionListarConductores');
-
 	Route::any('/agregar-asistencia/{idopcion}', 'AsistenciaConductorController@actionAgregarAsistencia');
-
 	Route::any('/lista-de-conductores-json.json', 'AsistenciaConductorController@actionListadeconductoresjson'); 
+	Route::any('/modificar-asistencia/{idopcion}/{idpiloto}', 'AsistenciaConductorController@actionModificarAsistenciaPiloto');
 
 
 	//ASISTENCIA PERIODOS
 
+	Route::any('/agregar-periodo/{idopcion}', 'MantenimientoController@actionAgregarPeriodo');
 	Route::any('/gestion-de-periodos/{idopcion}', 'MantenimientoController@actionListarPeriodo');
 	Route::any('/ajax-lista-dias-periodo', 'MantenimientoController@actionAjaxListaDiasxPeriodo');	
+
 
 
 

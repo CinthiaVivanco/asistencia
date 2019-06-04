@@ -8,8 +8,6 @@
 @stop
 @section('section')
 
-
-
   <div class="be-content">
     <div class="main-content container-fluid">
           <div class="row">
@@ -18,21 +16,27 @@
 
 
                 <div class="panel-heading">Asistencia Periodos
-                  <div class="tools tooltiptop">
 
+                  <div class="tools tooltiptop">
                     <a href="#" class="tooltipcss" id='buscardiasxperiodo' >
                       <span class="tooltiptext">Buscar Periodo</span>
                       <span class="icon mdi mdi-search"></span>
                     </a>
-
                   </div>
+
+                  <div class="tools">
+                    <a href="{{ url('/agregar-periodo/'.$idopcion) }}" data-toggle="tooltip" data-placement="top" title="Crear Periodo">
+                      <span class="icon mdi mdi-plus-circle-o"></span>
+                    </a>
+                  </div>
+
                 </div>
                 <div class="panel-body">
 
                   <div class='filtrotabla row'>
                     <div class="col-xs-12">
 
-                      <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4">
+                      <div class="col-xs-12 col-sm-5 col-md-4 col-lg-4 centrado1">
 
                           <div class="form-group">
                             <label class="col-sm-12 control-label labelleft" >Periodo :</label>

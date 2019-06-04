@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use App\PeriodoPiloto,App\ListaPiloto,App\PilotosAsistencia,App\ViajesPiloto,App\ViajesPilotoPacasmayo,App\ViajesCopilotoPacasmayo;
+use App\Piloto;
 use View;
 use Session;
 use Hashids;
@@ -19,6 +20,55 @@ use TPDF;
 class AsistenciaConductorController extends Controller
 {
 
+
+
+	public function actionModificarAsistenciaPiloto($idopcion,$idpiloto,Request $request)
+	{
+
+		/******************* validar url **********************/
+		$validarurl = $this->funciones->getUrl($idopcion,'Modificar');
+	    if($validarurl <> 'true'){return $validarurl;}
+	    /******************************************************/
+
+	    $idpiloto = $this->funciones->decodificarmaestra($idpiloto);
+
+		if($_POST)
+		{
+
+			$fechaasistencia 			= 	$request['fechaasistencia'];
+			$motivo 					= 	$request['motivo'];
+			$activo 					= 	$request['activo'];	
+
+			$asistenciapiloto           =   Piloto::where('id','=',$idpiloto)->first();
+			$piloto						=	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdPiloto')  
+				         					->select(DB::raw("listapiloto.Id, listapiloto.NombreCompleto"))
+				         					->where('listapiloto.Id','=',$asistenciapiloto->idpiloto)
+			         						->first();
+
+			$cabecera            	 	=	Piloto::find($idpiloto);
+			$cabecera->fechaviaje 	    = 	$fechaasistencia;
+			$cabecera->motivo 	    	= 	$motivo;
+			$cabecera->activo 	 	 	=  	$activo;			
+			$cabecera->save();
+ 
+ 			return Redirect::to('/gestion-de-conductores/'.$idopcion)->with('bienhecho', 'Asistencia del conductor '.$piloto->NombreCompleto.' modificado con éxito');
+
+		}else{
+
+
+				$piloto 	= Piloto::where('id', $idpiloto)->first();
+
+		        return View::make('conductores/modificarasistencia', 
+		        				[
+		        					'piloto'  	=> $piloto,
+						  			'idopcion' 	=> $idopcion
+		        				]);
+
+		}
+	}
+
+
+
 	public function actionAgregarAsistencia($idopcion,Request $request)
 	{
 		/******************* validar url **********************/
@@ -29,54 +79,53 @@ class AsistenciaConductorController extends Controller
 		if($_POST)
 		{
 
-			// /**** Validaciones laravel ****/
-			// $this->validate($request, [
-	  //           'nombre' => 'unique:rols',
-			// ], [
-   //          	'nombre.unique' => 'Rol ya registrado',
-   //      	]);
-			// /******************************/
+			$idpiloto 					= 	$request['pilotos'];
+			$fechaasistencia 			= 	$request['fechaasistencia'];
+			$motivo 					= 	$request['motivo'];
 
-			// $idrol 					 = $this->funciones->getCreateIdMaestra('rols');
+			$idpilotos 					= 	$this->funciones->getCreateIdMaestra('pilotos');
 
-			// $cabecera            	 =	new Rol;
-			// $cabecera->id 	     	 =  $idrol;
-			// $cabecera->nombre 	     =  $request['nombre'];
-			// $cabecera->save();
+			$piloto						=	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdPiloto')  
+				         					->select(DB::raw("listapiloto.Id, listapiloto.NombreCompleto"))
+				         					->where('listapiloto.Id','=',$idpiloto)
+			         						->first();
 
-			// $listaopcion = Opcion::orderBy('id', 'asc')->get();
-			// $count = 1;
-			// foreach($listaopcion as $item){
+			$cabecera            	 	= 	new Piloto;
+			$cabecera->id 	     	 	=  	$idpilotos;
+			$cabecera->idpiloto	     	=  	$idpiloto;
+			$cabecera->nombre 	     	= 	$piloto->NombreCompleto;
+			$cabecera->fechaviaje 	    = 	$fechaasistencia;
+			$cabecera->motivo 	    	= 	$motivo;
+			$cabecera->save();
 
-
-			// 	$idrolopciones 		= $this->funciones->getCreateIdMaestra('rolopciones');
-
-
-			//     $detalle            =	new RolOpcion;
-			//     $detalle->id 	    =  	$idrolopciones;
-			// 	$detalle->opcion_id = 	$item->id;
-			// 	$detalle->rol_id    =  	$idrol;
-			// 	$detalle->orden     =  	$count;
-			// 	$detalle->ver       =  	0;
-			// 	$detalle->anadir    =  	0;
-			// 	$detalle->modificar =  	0;
-			// 	$detalle->eliminar  =  	0;
-			// 	$detalle->todas     = 	0;
-			// 	$detalle->save();
-			// 	$count 				= 	$count +1;
-			// }
-
- 			return Redirect::to('/gestion-de-conductores/'.$idopcion)->with('bienhecho', 'Asistencia del conductor '.$request['nombre'].' registrado con exito');
+ 			return Redirect::to('/gestion-de-conductores/'.$idopcion)->with('bienhecho', 'Asistencia del conductor '.$piloto->NombreCompleto.' registrado con exito');
 		}else{
 
 		
+		 	$listapilotos      		= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdPiloto')  
+	         							->select(DB::raw("listapiloto.Id, listapiloto.NombreCompleto"))
+         								->groupBy('listapiloto.Id')
+         								->groupBy('listapiloto.NombreCompleto')
+         								->pluck('NombreCompleto','Id');
+
+         	$listacopiloto      	= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdCopiloto')  
+	         							->select(DB::raw("listapiloto.Id, listapiloto.NombreCompleto"))
+	         							->groupBy('listapiloto.Id')
+	         							->groupBy('listapiloto.NombreCompleto')
+	         							->pluck('NombreCompleto','Id');
 
 
+		 	$listapiloto 			= 	$listapilotos->merge($listacopiloto)->toArray();
 
+
+			$combopilotos  			= 	array('' => "Seleccione piloto") + $listapiloto;
+			$ffin 					= $this->fin;
 
 			return View::make('conductores/agregarasistencia',
 						[
-						  	'idopcion' => $idopcion
+						  	'idopcion' 			=> $idopcion,
+						  	'combopilotos' 		=> $combopilotos,
+						  	'ffin' 				=> $ffin,
 						]);
 
 		}
@@ -91,27 +140,11 @@ class AsistenciaConductorController extends Controller
 	    if($validarurl <> 'true'){return $validarurl;}
 	    /******************************************************/
 
-         // $listapilotos      		= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdPiloto')  
-         // 							->select('listapiloto.Id','listapiloto.NombreCompleto','listapiloto.NombreCargo','listapiloto.Dni')
-         // 							->groupBy('listapiloto.Id')
-         // 							->groupBy('listapiloto.NombreCompleto')
-         // 							->groupBy('listapiloto.NombreCargo')
-         // 							->groupBy('listapiloto.Dni')
-         // 							->get();
-
-         // $listacopiloto      	= 	PilotosAsistencia::join('listapiloto','listapiloto.Id','=','pilotosasistencia.IdCopiloto')  
-         // 							->select('listapiloto.Id','listapiloto.NombreCompleto','listapiloto.NombreCargo','listapiloto.Dni')
-         // 							->groupBy('listapiloto.Id')
-         // 							->groupBy('listapiloto.NombreCompleto')
-         // 							->groupBy('listapiloto.NombreCargo')
-         // 							->groupBy('listapiloto.Dni')
-         // 							->get();
-
-		 //$listapiloto 			= 	$listapilotos->merge($listacopiloto);
+	    $listaasistencia 	= Piloto::get();
 
 		return View::make('conductores/listarconductores',
 						 [
-						 	//'listapiloto' => $listapiloto,
+						 	'listaasistencia' => $listaasistencia,
 						 	'idopcion' 	  => $idopcion,
 						 ]);
 	}

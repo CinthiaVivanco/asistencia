@@ -4,8 +4,7 @@
     <thead>
       <tr>
         <th class= 'tabladp'>PERIODO</th>
-        <th class= 'tabladp'>FECHA INICIO</th>
-        <th class= 'tabladp'>FECHA FIN</th>
+        <th class= 'tabladp'>FECHA DEL PERIODO</th>
         <th class= 'tabladp'>FECHA</th>
         <th class= 'tabladp'>TIPO DE DIA</th>
       </tr>
@@ -15,11 +14,19 @@
       @foreach($listadias as $item) 
             <tr>
                 <td class='negrita'>{{$item->periodo->descripcion}}</td>
-                <td class='negrita'>{{$item->semana->fechainicio}}</td>
-                <td class='negrita'>{{$item->semana->fechafin}}</td>
-                <td class='negrita'>{{$item->fecha}}</td>
-                <td class='negrita'>{{$item->tipodia->descripcion}}</td>
-            </tr>       
+                <td class='negrita'>{{date("d/m/Y", strtotime($item->semana->fechainicio))}} Hasta {{date("d/m/Y", strtotime($item->semana->fechafin))}}</td>
+                <td class='negrita'>{{date("d/m/Y", strtotime($item->fecha))}}</td>
+                @if($item->tipodia->descripcion == 'DOMINGO')
+                  <td class='domingo'>{{$item->tipodia->descripcion}}</td>
+                @endif
+                @if($item->tipodia->descripcion == 'Laborable')
+                  <td class='negrita'>{{$item->tipodia->descripcion}}</td>
+                @endif
+                @if($item->tipodia->descripcion == 'FERIADO')
+                  <td class='feriado'>{{$item->tipodia->descripcion}}</td>
+                @endif
+            </tr>   
+
       @endforeach
 
     </tbody>

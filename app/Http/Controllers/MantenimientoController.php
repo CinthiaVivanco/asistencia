@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Crypt;
 use App\Cargo,App\Cargoempresa,App\Empresa,App\Permisouserempresa;
-use App\Dia,App\TipoDia,App\Periodo;
+use App\Dia,App\TipoDia,App\Periodo,App\Mes;
 use View;
 use ZipArchive;
 use Session;
@@ -17,6 +17,56 @@ use PDO;
 
 class MantenimientoController extends Controller
 {
+
+	public function actionAgregarPeriodo($idopcion,Request $request)
+	{
+		/******************* validar url **********************/
+		$validarurl = $this->funciones->getUrl($idopcion,'Anadir');
+	    if($validarurl <> 'true'){return $validarurl;}
+	    /******************************************************/
+
+		if($_POST)
+		{
+
+			/**** Validaciones laravel ****/
+			$this->validate($request, [
+	            'codigo' => 'unique:periodos',
+			], [
+            	'codigo.unique' => 'Periodo ya registrado',
+        	]);
+			/******************************/
+
+			//////////////////  Periodos  ///////////////////
+
+					$idperiodo 				 = $this->funciones->getCreateIdMaestra('periodos');
+
+					$cabecera            	 =	new Periodo;
+					$cabecera->id 	     	 =  $idperiodo;
+					$cabecera->anio 	     =  $request['anio'];
+					$cabecera->mes_id 	     =  $request['mes_id'];
+					$cabecera->codigo 	     =  $request['codigo'];
+					$cabecera->descripcion 	 =  $request['descripcion'];
+					$cabecera->activo 		 =  '1';
+				
+					$cabecera->save();
+
+
+					////////////////////////////////////////////////////////////////////////
+
+ 			return Redirect::to('/agregar-periodo/'.$idopcion)->with('bienhecho', 'Periodo '.$request['nombre'].' registrado con éxito');
+
+		}else{
+
+			$mes				 = DB::table('meses')->pluck('descripcion','id')->toArray();
+			$combomes  			 = array('' => "Seleccione el Mes") + $mes;
+
+			return View::make('mantenimiento/agregarperiodo',
+						[
+						  	'idopcion' 		 => $idopcion,
+						  	'combomes' 		 => $combomes
+						]);
+		}
+	}
 
 	public function actionListarPeriodo($idopcion)
 	{
@@ -32,7 +82,7 @@ class MantenimientoController extends Controller
 		return View::make('mantenimiento/listaperiodos',
 						 [
 						 	'comboperiodos' 	=> $comboperiodos,
-						 	'idopcion' 			=> $idopcion,
+						 	'idopcion' 			=> $idopcion
 						 ]);
 	}
 

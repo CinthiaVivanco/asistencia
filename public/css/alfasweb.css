@@ -3,9 +3,17 @@
   height: 85px;
 }
 
+.centrado1{
+  left: 361px !important;
+}
+
 .listadoconductores .be-datatable-footer{
     display: none;
 }
+
+.leftperiodo{
+  left: 102px !important;
+  }
 
 .listadoconductores .dataTables_length{
     display: none;
@@ -166,6 +174,16 @@
 }
 .negrita{
     font-weight: bold !important;
+}
+
+.domingo{
+    font-weight: bold !important;
+    color: #CD3C3C !important;
+}
+
+.feriado{
+    font-weight: bold !important;
+    color: #3CCD45 !important;
 }
 
 /************ horarios  detalles  ************/

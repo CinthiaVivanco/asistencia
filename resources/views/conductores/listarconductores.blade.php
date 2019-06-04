@@ -25,12 +25,39 @@
                       <tr>
                         <th>Nombre</th>
                         <th>Fecha Asistencia</th>
-                        <th>Estado</th>
+                        <th>Asistencia</th>
                         <th>Motivo</th>
                         <th>Opción</th>
                       </tr>
                     </thead>
                     <tbody>
+                      @foreach($listaasistencia as $item)
+                        <tr>
+                            <td>{{$item->nombre}} </td>
+                            <td>{{date_format(date_create($item->fechaviaje),'d-m-Y')}}</td>
+                            <td> 
+                              @if($item->activo == 1)  
+                                <span class="icon mdi mdi-check"></span> 
+                              @else 
+                                <span class="icon mdi mdi-close"></span> 
+                              @endif
+                            </td>
+                            <td>{{$item->motivo}}</td>
+                            <td class="rigth">
+                              <div class="btn-group btn-hspace">
+                                <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Acción <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+                                <ul role="menu" class="dropdown-menu pull-right">
+                                  <li>
+                                    <a href="{{ url('/modificar-asistencia/'.$idopcion.'/'.Hashids::encode(substr($item->id, -12))) }}">
+                                      Modificar
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </td>
+                        </tr>                    
+                      @endforeach
+
 
                     </tbody>
                   </table>

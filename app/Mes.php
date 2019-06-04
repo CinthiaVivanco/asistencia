@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Periodo extends Model
+class Mes extends Model
 {
-    protected $table = 'periodos';
+    protected $table = 'meses';
     public $timestamps=false;
 
     
@@ -14,11 +14,10 @@ class Periodo extends Model
 	public $incrementing = false;
 	public $keyType = 'string';
 
-	public function mes()
+	public function periodo()
     {
-        return $this->belongsTo('App\Mes');
+        return $this->hasMany('App\Periodo');
     }
 
+
 }
-
-
